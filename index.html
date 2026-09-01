@@ -192,5 +192,54 @@ Error generating stack: `+n.message+`
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (() => {
+        const capsuleImages = {
+          "Classic Capsule": "capsule-classic.png",
+          "Super Capsule": "capsule-super.png",
+          "Ancient Capsule": "capsule-ancient.png",
+          "Cosmic Capsule": "capsule-cosmic.png",
+          "Yin & Yang Capsule": "capsule-yin-yang.png"
+        };
+        const runeImages = {
+          "Basic Rune": "rune-basic.png",
+          "Super Rune": "rune-super.png",
+          "Advanced Rune": "rune-advanced.png",
+          "Prism Rune": "rune-cosmic-prism.png",
+          "Hacker Rune": "rune-hacker.png",
+          "Snowy Rune": "rune-snowy.png",
+          "Deepcore Rune": "rune-deepcore.png",
+          "Shard Rune": "rune-shard.png",
+          "Dunes Rune": "rune-dunes.png",
+          "Sunfire Rune": "rune-sunfire.png",
+          "Sunstorm Prism Rune": "rune-sunstorm-prism.png",
+          "Starlight Rune": "rune-starlight.png",
+          "Cosma Rune": "rune-cosma.png",
+          "Light Rune": "rune-light.png",
+          "Dark Rune": "rune-dark.png"
+        };
+        const addCapsuleImages = () => document.querySelectorAll("button h3").forEach((heading) => {
+          const src = capsuleImages[heading.textContent.trim()];
+          const card = heading.closest("button");
+          if (!src || !card || card.dataset.capsuleImage) return;
+          const icon = [...card.querySelectorAll("div")].find((node) => node.className.includes("h-14 w-14"));
+          if (!icon) return;
+          icon.classList.remove("flex", "items-center", "justify-center");
+          icon.classList.add("overflow-hidden");
+          icon.replaceChildren(Object.assign(document.createElement("img"), {
+            src, alt: "", className: "h-full w-full object-cover"
+          }));
+          card.dataset.capsuleImage = "true";
+        });
+        const addRuneImages = () => document.querySelectorAll("button h3").forEach((heading) => {
+          const src = runeImages[heading.textContent.trim()];
+          const image = src && heading.closest("button")?.querySelector(`img[alt="${heading.textContent.trim()}"]`);
+          if (image) image.src = src;
+        });
+        new MutationObserver(() => { addCapsuleImages(); addRuneImages(); }).observe(document.getElementById("root"), { childList: true, subtree: true });
+        addCapsuleImages();
+        addRuneImages();
+      })();
+    </script>
   </body>
 </html>
